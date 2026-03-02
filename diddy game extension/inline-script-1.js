@@ -69,7 +69,44 @@ const canvas = document.getElementById('game');
                 list.innerHTML = '';
                 items.forEach((entry, i) => {
                     const li = document.createElement('li');
-                    li.textContent = `${entry.name}: ${entry.score}`;
+                    let dateStr = '';
+                    if (entry.timestamp) {
+                        const tzOffsetMs = 8 * 60 * 60 * 1000;
+                        const tzDate = new Date(entry.timestamp + tzOffsetMs);
+                        const day = String(tzDate.getUTCDate()).padStart(2, '0');
+                        const month = String(tzDate.getUTCMonth() + 1).padStart(2, '0');
+                        const year = String(tzDate.getUTCFullYear()).slice(-2);
+                        dateStr = ` (${day}/${month}/${year})`;
+                    }
+
+                    const nameSpan = document.createElement('span');
+                    nameSpan.textContent = entry.name;
+                    nameSpan.style.cursor = 'pointer';
+                    nameSpan.tabIndex = 0;
+
+                    const scoreSpan = document.createElement('span');
+                    scoreSpan.textContent = ': ' + entry.score;
+
+                    li.appendChild(nameSpan);
+                    li.appendChild(scoreSpan);
+
+                    if (dateStr) {
+                        const tzOffsetMs = 8 * 60 * 60 * 1000;
+                        const tzDate = new Date(entry.timestamp + tzOffsetMs);
+                        const dDay = String(tzDate.getUTCDate()).padStart(2, '0');
+                        const dMonth = String(tzDate.getUTCMonth() + 1).padStart(2, '0');
+                        const dYear = String(tzDate.getUTCFullYear()).slice(-2);
+                        const rawHour = tzDate.getUTCHours();
+                        const dHour12 = (rawHour % 12) === 0 ? 12 : (rawHour % 12);
+                        const ampm = rawHour >= 12 ? 'PM' : 'AM';
+                        const dHour = String(dHour12).padStart(2, '0');
+                        const dMin = String(tzDate.getUTCMinutes()).padStart(2, '0');
+                        const dateText = `${dDay}/${dMonth}/${dYear}`;
+                        const timeText = `${dHour}:${dMin} ${ampm} (UTC+8)`;
+                        nameSpan.addEventListener('click', () => showCustomAlert(`This score was achieved on\n${dateText} at ${timeText}`));
+                        nameSpan.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); showCustomAlert(`This score was achieved on\n${dateText} at ${timeText}`); } });
+                    }
+
                     list.appendChild(li);
                 });
             });
@@ -385,9 +422,7 @@ const canvas = document.getElementById('game');
                 ctx.restore();
             }
             police.forEach(p => drawTile(p.x, p.y, "👮‍♂️"));
-            // compute whether a police unit is currently on the head
             const policeOnHeadNow = police.some(p => p.x === snake[0].x && p.y === snake[0].y);
-            // check whether a police unit was already on that position before the player's last move
             const policeWasThereBeforeMove = prevPolicePos.has(`${snake[0].x},${snake[0].y}`);
             if (playerMoved && policeOnHeadNow) {
                 if (lawyerActive) {
@@ -572,7 +607,6 @@ const canvas = document.getElementById('game');
     }
 
 
-// Music selector fix
 try {
   const soundSelect = document.getElementById("soundSelect");
   if (soundSelect && bgMusic) {

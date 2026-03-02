@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Diddy Game",
-  "version": "1.1.4",
+  "version": "1.1.5",
   "description": "A fun little game about being diddy try to get as high on the leaderboard as you can!!!",
   "action": {
     "default_title": "Diddy Game"

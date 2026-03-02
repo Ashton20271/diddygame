@@ -375,7 +375,9 @@
             const messageEl = document.getElementById('modalMessage');
             const button = document.getElementById('modalButton');
 
-            messageEl.textContent = message;
+            // Allow simple line breaks / HTML for modal messages
+            if (message == null) message = '';
+            messageEl.innerHTML = String(message).replace(/\n/g, '<br>');
             modal.classList.add('show');
             overlay.classList.add('show');
             modalOpen = true;
@@ -511,7 +513,45 @@
                 list.innerHTML = '';
                 items.forEach((entry, i) => {
                     const li = document.createElement('li');
-                    li.textContent = `${entry.name}: ${entry.score}`;
+                    let dateStr = '';
+                    if (entry.timestamp) {
+                        const d = new Date(entry.timestamp);
+                        const day = String(d.getDate()).padStart(2, '0');
+                        const month = String(d.getMonth() + 1).padStart(2, '0');
+                        const year = String(d.getFullYear()).slice(-2);
+                        dateStr = ` (${day}/${month}/${year})`;
+                    }
+
+                    const nameSpan = document.createElement('span');
+                    nameSpan.textContent = entry.name;
+                    nameSpan.style.cursor = 'pointer';
+                    nameSpan.tabIndex = 0;
+
+                    const scoreSpan = document.createElement('span');
+                    scoreSpan.textContent = ': ' + entry.score;
+
+                    li.appendChild(nameSpan);
+                    li.appendChild(scoreSpan);
+
+                    // Use existing custom modal for showing the date
+                    if (dateStr) {
+                        // compute UTC+8 date/time
+                        const tzOffsetMs = 8 * 60 * 60 * 1000;
+                        const tzDate = new Date(entry.timestamp + tzOffsetMs);
+                        const dDay = String(tzDate.getUTCDate()).padStart(2, '0');
+                        const dMonth = String(tzDate.getUTCMonth() + 1).padStart(2, '0');
+                        const dYear = String(tzDate.getUTCFullYear()).slice(-2);
+                        const rawHour = tzDate.getUTCHours();
+                        const dHour12 = (rawHour % 12) === 0 ? 12 : (rawHour % 12);
+                        const ampm = rawHour >= 12 ? 'PM' : 'AM';
+                        const dHour = String(dHour12).padStart(2, '0');
+                        const dMin = String(tzDate.getUTCMinutes()).padStart(2, '0');
+                        const dateText = `${dDay}/${dMonth}/${dYear}`;
+                        const timeText = `${dHour}:${dMin} ${ampm} (UTC+8)`;
+                        nameSpan.addEventListener('click', () => showCustomAlert(`This score was achieved on\n${dateText} at ${timeText}`));
+                        nameSpan.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); showCustomAlert(`This score was achieved on\n${dateText} at ${timeText}`); } });
+                    }
+
                     list.appendChild(li);
                 });
             });

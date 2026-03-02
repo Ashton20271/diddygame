@@ -4,7 +4,8 @@ function showCustomAlert(message) {
     const messageEl = document.getElementById('modalMessage');
     const button = document.getElementById('modalButton');
 
-    messageEl.textContent = message;
+    if (message == null) message = '';
+    messageEl.innerHTML = String(message).replace(/\n/g, '<br>');
     modal.classList.add('show');
     overlay.classList.add('show');
 
