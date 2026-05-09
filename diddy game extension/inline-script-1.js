@@ -549,7 +549,7 @@ const canvas = document.getElementById('game');
         const skinBtn = document.createElement('button');
         skinBtn.id = "skinBtn";
         skinBtn.style.position = "absolute";
-        skinBtn.style.top = "104px";
+        skinBtn.style.top = "146px";
         skinBtn.style.right = "30px";
         skinBtn.style.background = "none";
         skinBtn.style.border = "none";
@@ -564,14 +564,7 @@ const canvas = document.getElementById('game');
             childEmoji = childSkins[childSkinIndex];
             skinBtn.textContent = childEmoji;
         };
-        const fullscreenBtn = document.getElementById('fullscreenBtn');
-        fullscreenBtn.onclick = function() {
-            if (!document.fullscreenElement) {
-                canvas.requestFullscreen();
-            } else {
-                document.exitFullscreen();
-            }
-        };
+
     const musicNoteBtn = document.getElementById('musicNoteBtn');
     const musicPopup = document.getElementById('musicPopup');
     musicNoteBtn.onclick = function() {

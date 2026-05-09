@@ -47,21 +47,7 @@
             font-size: 32px;
             margin: 4px;
         }
-        canvas:fullscreen {
-            width: 100vw !important;
-            height: 100vh !important;
-            display: block;
-            margin: 0 !important;
-            padding: 0 !important;
-            object-fit: contain;
-            background: #464646 !important;
-        }
-        
-        body:has(canvas:fullscreen) {
-            margin: 0;
-            padding: 0;
-            overflow: hidden;
-        }
+
         
         button,
         a[role="button"],
@@ -70,7 +56,6 @@
         #volumeBtn,
         #modeBtn,
         #discordBtn,
-        #fullscreenBtn,
         #skinBtn,
         #pauseToggleBtn {
             transition: transform 0.15s, box-shadow 0.15s, background 0.15s, filter 0.15s;
@@ -82,7 +67,6 @@
         #downloadBtn:hover,
         #volumeBtn:hover,
         #modeBtn:hover,
-        #fullscreenBtn:hover,
         #discordBtn:hover
         #skinBtn:hover,
         #pauseToggleBtn:hover {
@@ -225,7 +209,7 @@
     </div>
     <button id="pauseToggleBtn" style="
         position: absolute;
-        top: 188px;
+        top: 104px;
         right: 30px;
         background: none;
         border: none;
@@ -277,23 +261,10 @@
     ">
         <span id="modeEmoji" style="font-size: 32px;">🌑</span>
     </button>
-    <button id="fullscreenBtn" style="
-        position: absolute;
-        top: 146px;
-        right: 30px;
-        background: none;
-        border: none;
-        font-size: 32px;
-        color: #fff;
-        cursor: pointer;
-        z-index: 20;
-        outline: none;
-    ">
-        🖥️
-    </button>
+
     <button id="musicNoteBtn" style="
         position: absolute;
-        top: 230px;
+        top: 188px;
         right: 30px;
         background: none;
         border: none;
@@ -308,7 +279,7 @@
     <div id="musicPopup" style="
         display: none;
         position: absolute;
-        top: 272px;
+        top: 230px;
         right: 30px;
         background: #222;
         color: #fff;
@@ -997,7 +968,7 @@
         const skinBtn = document.createElement('button');
         skinBtn.id = "skinBtn";
         skinBtn.style.position = "absolute";
-        skinBtn.style.top = "104px";
+        skinBtn.style.top = "146px";
         skinBtn.style.right = "30px";
         skinBtn.style.background = "none";
         skinBtn.style.border = "none";
@@ -1012,16 +983,7 @@
             childEmoji = childSkins[childSkinIndex];
             skinBtn.textContent = childEmoji;
         };
-        const fullscreenBtn = document.getElementById('fullscreenBtn');
-        fullscreenBtn.onclick = function() {
-            if (!document.fullscreenElement) {
-                canvas.requestFullscreen().catch(err => {
-                    console.error(`Error requesting fullscreen: ${err.message}`);
-                });
-            } else {
-                document.exitFullscreen();
-            }
-        };
+
     let musicPlaying = false;
     soundSelect.onchange = function() {
         const wasPlaying = musicPlaying;

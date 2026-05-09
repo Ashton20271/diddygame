@@ -46,18 +46,7 @@
             font-size: 32px;
             margin: 4px;
         }
-        canvas:fullscreen {
-            width: 100vw !important;
-            height: 100vw !important;
-            max-width: 100vh !important;
-            max-height: 100vh !important;
-            aspect-ratio: 1 / 1;
-            display: block;
-            margin: 0 auto;
-            outline: 8px solid #ff0;
-            box-shadow: 0 0 0 12px #222, 0 0 32px 8px #ff0;
-            box-sizing: border-box;
-        }
+
         
         button,
         a[role="button"],
@@ -65,7 +54,6 @@
         #downloadBtn,
         #volumeBtn,
         #modeBtn,
-        #fullscreenBtn,
         #skinBtn,
         #pauseToggleBtn {
             transition: transform 0.15s, box-shadow 0.15s, background 0.15s, filter 0.15s;
@@ -77,7 +65,6 @@
             #downloadBtn:hover,
             #volumeBtn:hover,
             #modeBtn:hover,
-        #fullscreenBtn:hover,
         #skinBtn:hover {
             transform: scale(1.08);
             box-shadow: 0 2px 8px rgba(0,0,0,0.18);

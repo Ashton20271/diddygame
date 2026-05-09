@@ -44,11 +44,7 @@
             font-size: 32px;
             margin: 4px;
         }
-        canvas:fullscreen {
-            width: 100vw !important;
-            height: 100vh !important;
-            display: block;
-        }
+
         
         button,
         a[role="button"],
@@ -56,7 +52,6 @@
         #downloadBtn,
         #volumeBtn,
         #modeBtn,
-        #fullscreenBtn,
         #skinBtn,
         #pauseToggleBtn {
             transition: transform 0.15s, box-shadow 0.15s, background 0.15s, filter 0.15s;
@@ -68,7 +63,6 @@
         #downloadBtn:hover,
         #volumeBtn:hover,
         #modeBtn:hover,
-        #fullscreenBtn:hover,
         #skinBtn:hover,
         #pauseToggleBtn:hover {
             transform: scale(1.12);
@@ -180,7 +174,7 @@
     </div>
     <button id="pauseToggleBtn" style="
         position: absolute;
-        top: 188px;
+        top: 104px;
         right: 30px;
         background: none;
         border: none;
@@ -232,23 +226,10 @@
     ">
         <span id="modeEmoji" style="font-size: 32px;">🌑</span>
     </button>
-    <button id="fullscreenBtn" style="
-        position: absolute;
-        top: 146px;
-        right: 30px;
-        background: none;
-        border: none;
-        font-size: 32px;
-        color: #fff;
-        cursor: pointer;
-        z-index: 20;
-        outline: none;
-    ">
-        🖥️
-    </button>
+
     <button id="musicNoteBtn" style="
         position: absolute;
-        top: 230px;
+        top: 188px;
         right: 30px;
         background: none;
         border: none;
@@ -263,7 +244,7 @@
     <div id="musicPopup" style="
         display: none;
         position: absolute;
-        top: 272px;
+        top: 230px;
         right: 30px;
         background: #222;
         color: #fff;
