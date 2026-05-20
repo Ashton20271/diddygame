@@ -14,7 +14,14 @@ const canvas = document.getElementById('game');
         let speedPowerup = null;
         let speedBoostActive = false;
         let speedBoostTimer = 0;
-        let gameSpeed = 100;
+        let turtlePowerup = null;
+        let turtleSlowActive = false;
+        let turtleSlowExpiresAt = 0;
+        const turtleSlowDurationMs = 10000;
+        const normalSpeed = 100;
+        const speedBoostSpeed = 50;
+        const turtleSlowSpeed = 200;
+        let gameSpeed = normalSpeed;
         let gameInterval;
         let highscore = localStorage.getItem('diddyHighScore') ? parseInt(localStorage.getItem('diddyHighScore')) : 0;
         document.getElementById('highscore').textContent = "High Score: " + highscore;
@@ -207,6 +214,23 @@ const canvas = document.getElementById('game');
             }
         }
 
+        function placeTurtlePowerup() {
+            let valid = false;
+            while (!valid) {
+                const x = Math.floor(Math.random() * tileCount);
+                const y = Math.floor(Math.random() * tileCount);
+                valid = !snake.some(segment => segment.x === x && segment.y === y) &&
+                        !(child.x === x && child.y === y) &&
+                        !(powerup && powerup.x === x && powerup.y === y) &&
+                        !(invincibilityPowerup && invincibilityPowerup.x === x && invincibilityPowerup.y === y) &&
+                        !(speedPowerup && speedPowerup.x === x && speedPowerup.y === y) &&
+                        !(lawyerPowerup && lawyerPowerup.x === x && lawyerPowerup.y === y) &&
+                        !(heartPowerup && heartPowerup.x === x && heartPowerup.y === y) &&
+                        !police.some(p => p.x === x && p.y === y);
+                if (valid) turtlePowerup = {x, y};
+            }
+        }
+
         let lawyerPowerup = null;
         let lawyerActive = false;
         function placeLawyerPowerup() {
@@ -286,6 +310,12 @@ const canvas = document.getElementById('game');
                     if (score === 25 && !speedPowerup) {
                         placeSpeedPowerup();
                     }
+                    if (score === 20 && !turtlePowerup) {
+                        placeTurtlePowerup();
+                    }
+                    if (score !== 20 && !turtlePowerup && Math.random() < 0.0075) {
+                        placeTurtlePowerup();
+                    }
                     if (score === 50 && !invincibilityPowerup) {
                         placeInvincibilityPowerup();
                     }
@@ -307,8 +337,15 @@ const canvas = document.getElementById('game');
                 } else if (speedPowerup && head.x === speedPowerup.x && head.y === speedPowerup.y) {
                     speedBoostActive = true;
                     speedBoostTimer = 100;
+                    turtleSlowActive = false;
                     speedPowerup = null;
-                    setGameSpeed(gameSpeed / 2);
+                    updateGameSpeed();
+                } else if (turtlePowerup && head.x === turtlePowerup.x && head.y === turtlePowerup.y) {
+                    turtleSlowActive = true;
+                    turtleSlowExpiresAt = Date.now() + turtleSlowDurationMs;
+                    speedBoostActive = false;
+                    turtlePowerup = null;
+                    updateGameSpeed();
                 } else if (invincibilityPowerup && head.x === invincibilityPowerup.x && head.y === invincibilityPowerup.y) {
                     invincible = true;
                     invincibilityTimer = 100;
@@ -370,12 +407,15 @@ const canvas = document.getElementById('game');
                     speedPowerup = null;
                     speedBoostActive = false;
                     speedBoostTimer = 0;
+                    turtlePowerup = null;
+                    turtleSlowActive = false;
+                    turtleSlowExpiresAt = 0;
                     police = [];
                     lawyerPowerup = null;
                     lawyerActive = false;
                     heartPowerup = null;
                     extraLives = 0;
-                    setGameSpeed(100);
+                    updateGameSpeed();
                     return;
                 }
             }
@@ -394,13 +434,18 @@ const canvas = document.getElementById('game');
                 speedBoostTimer--;
                 if (speedBoostTimer <= 0) {
                     speedBoostActive = false;
-                    setGameSpeed(100);
+                    updateGameSpeed();
                 }
+            }
+            if (turtleSlowActive && Date.now() >= turtleSlowExpiresAt) {
+                turtleSlowActive = false;
+                updateGameSpeed();
             }
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             drawTile(child.x, child.y, childEmoji);
             if (powerup) drawTile(powerup.x, powerup.y, "🧴");
             if (speedPowerup) drawTile(speedPowerup.x, speedPowerup.y, "⚡");
+            if (turtlePowerup) drawTile(turtlePowerup.x, turtlePowerup.y, "🐢");
             if (invincibilityPowerup) drawTile(invincibilityPowerup.x, invincibilityPowerup.y, "🛡️");
             if (lawyerPowerup) drawTile(lawyerPowerup.x, lawyerPowerup.y, "🧑🏻‍⚖️");
             if (heartPowerup) drawTile(heartPowerup.x, heartPowerup.y, "❤️");
@@ -418,6 +463,13 @@ const canvas = document.getElementById('game');
                 ctx.save();
                 ctx.globalAlpha = 0.2;
                 ctx.fillStyle = "#ffff00";
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                ctx.restore();
+            }
+            if (turtleSlowActive) {
+                ctx.save();
+                ctx.globalAlpha = 0.2;
+                ctx.fillStyle = "#00bfff";
                 ctx.fillRect(0, 0, canvas.width, canvas.height);
                 ctx.restore();
             }
@@ -460,6 +512,12 @@ const canvas = document.getElementById('game');
             gameSpeed = ms;
             clearInterval(gameInterval);
             gameInterval = setInterval(gameLoop, gameSpeed);
+        }
+        function updateGameSpeed() {
+            let targetSpeed = normalSpeed;
+            if (turtleSlowActive) targetSpeed = turtleSlowSpeed;
+            else if (speedBoostActive) targetSpeed = speedBoostSpeed;
+            if (targetSpeed !== gameSpeed) setGameSpeed(targetSpeed);
         }
         let lastInputTime = 0;
         const inputDelay = 60;
