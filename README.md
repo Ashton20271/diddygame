@@ -101,6 +101,8 @@ https://discord.gg/mSYC83mEgb
 
 🧑🏻‍⚖️ = lawer removes all police and doesnt kill you when you touch next police 1% chance (100% at score 30)
 
+🐢 = turtle makes you half your speed for 30 seconds
+
 ❤️ = extra life 0.25% chance also resets length upon death
 # Disclaimers 
 i do not support diddy in any way this game is satire
