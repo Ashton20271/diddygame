@@ -6,11 +6,7 @@ https://diddygame.vercel.app/
 
 https://diddygame.netlify.app/
 
-https://freediddy69420.github.io/diddygame/
-
-https://1458740388087988348.discordsays.com/ (leaderboard broken)
-
-https://diddygame.neocities.org/ (no music as its a free account)
+https://1458740388087988348.discordsays.com/ (leaderboard broken due to strict csp)
 
 https://diddygame.gt.tc/
 
