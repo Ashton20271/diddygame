@@ -8,10 +8,6 @@ https://diddygame.netlify.app/
 
 https://1458740388087988348.discordsays.com/ (leaderboard broken due to strict csp)
 
-https://diddygame.gt.tc/
-
-https://diddygame.ct.ws/
-
 https://diddygame.kesug.com
 
 https://diddygame.web1337.net/
@@ -34,8 +30,6 @@ https://diddygame.lovestoblog.com/
 
 https://diddygame.rf.gd/
 
-https://diddygame.fwh.is/
-
 https://diddygame.great-site.net/
 
 https://diddygame.infinityfree.me/
@@ -45,8 +39,6 @@ https://diddygame.22web.org/
 https://diddygame.2kool4u.net/
 
 https://diddygame.66ghz.com/
-
-https://diddygame.a0001.net/
 
 https://diddygame.fanclub.rocks/
 
