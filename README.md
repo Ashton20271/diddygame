@@ -78,7 +78,7 @@ https://diddygame.totalh.net/
 [![extention](https://static.chrome-stats.com/icons/chrome-web-store.webp)](https://chromewebstore.google.com/detail/diddy-game/bfjbmoglpfpbkaneffbihgnogdibgfpf) <- Click this to download the extention
 # Discord:
 
-https://discord.gg/mSYC83mEgb
+[![Discord(https://img.shields.io/discord/1440531026647715965?logo=discord&label=Discord)](https://discord.gg/mSYC83mEgb)
 
 # Powerups
 🍼 = x5 points for next child
